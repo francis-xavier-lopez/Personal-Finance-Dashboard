@@ -8,14 +8,32 @@ function TransactionList({
 }) {
 
   const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("latest");
 
   const filteredTransactions = transactions.filter((transaction) => {
 
-    if (filter === "all") {
-      return true;
+    const matchesFilter =
+      filter === "all" || transaction.type === filter;
+
+    const matchesSearch =
+      transaction.title.toLowerCase().includes(search.toLowerCase()) ||
+      transaction.category.toLowerCase().includes(search.toLowerCase());
+
+    return matchesFilter && matchesSearch;
+  });
+
+  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
+
+    if (sort === "low") {
+      return a.amount - b.amount;
     }
 
-    return transaction.type === filter;
+    if (sort === "high") {
+      return b.amount - a.amount;
+    }
+
+    return 0;
   });
 
   return (
@@ -32,7 +50,27 @@ function TransactionList({
         <option value="expense">Expense</option>
       </select>
 
-      {filteredTransactions.map((transaction) => (
+      <input
+        type="text"
+        placeholder="Search transactions..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <select
+        value={sort}
+        onChange={(e) => setSort(e.target.value)}
+      >
+        <option value="latest">Latest</option>
+        <option value="low">Amount: Low → High</option>
+        <option value="high">Amount: High → Low</option>
+      </select>
+
+      {filteredTransactions.length === 0 && (
+        <p>No transactions found.</p>
+      )}
+
+      {sortedTransactions.map((transaction) => (
 
         <div className="transaction" key={transaction.id}>
 
