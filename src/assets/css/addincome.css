@@ -1,0 +1,17 @@
+.income-container {
+  margin: 30px 40px;
+  padding: 25px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.income-container input {
+  padding: 10px;
+  width: 250px;
+  margin-right: 10px;
+}
+
+.income-container button {
+  padding: 10px 20px;
+  cursor: pointer;
+}

@@ -1,0 +1,42 @@
+.transaction-container {
+  width: 700px;
+  margin: 30px auto;
+}
+
+.transaction-container h2 {
+  margin-bottom: 20px;
+}
+
+.transaction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.transaction h3 {
+  margin: 0 0 5px 0;
+}
+
+.transaction p {
+  margin: 0;
+}
+
+.income-amount {
+  color: green;
+  font-weight: bold;
+}
+
+.expense-amount {
+  color: red;
+  font-weight: bold;
+}
+
+.transaction button {
+  padding: 7px 12px;
+  margin-left: 8px;
+}

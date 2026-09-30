@@ -1,0 +1,25 @@
+.edit-transaction {
+  width: 400px;
+  margin: 30px auto;
+  padding: 25px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.edit-transaction h2 {
+  margin-bottom: 20px;
+}
+
+.edit-transaction input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+.edit-transaction button {
+  padding: 10px 15px;
+  margin-right: 10px;
+}
