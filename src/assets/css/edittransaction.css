@@ -23,3 +23,9 @@
   padding: 10px 15px;
   margin-right: 10px;
 }
+
+.edit-transaction label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}

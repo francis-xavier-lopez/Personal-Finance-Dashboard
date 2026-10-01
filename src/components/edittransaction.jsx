@@ -9,7 +9,11 @@ function EditTransaction({
   return (
     <div className="edit-transaction">
       <h2>Edit Transaction</h2>
+      <p>
+        Type: <strong>{editingTransaction.type}</strong>
+      </p>
 
+      <label>Title</label>
       <input
         type="text"
         value={editingTransaction.title}
@@ -21,6 +25,7 @@ function EditTransaction({
         }
       />
 
+      <label>Amount</label>
       <input
         type="number"
         value={editingTransaction.amount}
@@ -32,8 +37,8 @@ function EditTransaction({
         }
       />
 
-      <input
-        type="text"
+      <label>Category</label>
+      <select
         value={editingTransaction.category}
         onChange={(e) =>
           setEditingTransaction({
@@ -41,7 +46,28 @@ function EditTransaction({
             category: e.target.value
           })
         }
-      />
+      >
+        <option value="">Select category</option>
+
+        {editingTransaction.type === "income" ? (
+          <>
+            <option value="Salary">Salary</option>
+            <option value="Freelance">Freelance</option>
+            <option value="Business">Business</option>
+            <option value="Investment">Investment</option>
+            <option value="Other">Other</option>
+          </>
+        ) : (
+          <>
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Bills">Bills</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
+          </>
+        )}
+      </select>
 
       <button onClick={saveEdit}>
         Save Changes

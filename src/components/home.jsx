@@ -19,6 +19,14 @@ function Home() {
 
   const deleteTransaction = (id) => {
 
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this transaction?"
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
     const transaction = transactions.find(
       (transaction) => transaction.id === id
     );

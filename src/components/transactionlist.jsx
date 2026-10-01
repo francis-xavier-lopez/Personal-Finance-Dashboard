@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../assets/css/transactionlist.css";
+import formatCurrency from "../utils/formatcurrency";
 
 function TransactionList({
   transactions,
@@ -90,7 +91,7 @@ function TransactionList({
             }
           >
             {transaction.type === "income" ? "+" : "-"}
-            ₹{transaction.amount}
+            {formatCurrency(transaction.amount)}
           </p>
 
           <button onClick={() => editTransaction(transaction.id)}>

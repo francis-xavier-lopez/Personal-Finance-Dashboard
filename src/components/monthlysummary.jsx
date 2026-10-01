@@ -1,4 +1,5 @@
 import "../assets/css/monthlysummary.css";
+import formatCurrency from "../utils/formatcurrency";
 
 function MonthlySummary({ income, expense, transactions }) {
 
@@ -11,17 +12,17 @@ function MonthlySummary({ income, expense, transactions }) {
 
         <div>
           <h3>Income</h3>
-          <p>₹{income}</p>
+          <p>{formatCurrency(income)}</p>
         </div>
 
         <div>
           <h3>Expenses</h3>
-          <p>₹{expense}</p>
+          <p>{formatCurrency(expense)}</p>
         </div>
 
         <div>
           <h3>Savings</h3>
-          <p>₹{income - expense}</p>
+          <p>{formatCurrency(income - expense)}</p>
         </div>
 
         <div>

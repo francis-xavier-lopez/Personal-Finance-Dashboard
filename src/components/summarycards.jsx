@@ -1,4 +1,5 @@
 import "../assets/css/summarycards.css";
+import formatCurrency from "../utils/formatcurrency";
 
 function SummaryCards({ income, expense, balance }) {
 
@@ -7,17 +8,17 @@ function SummaryCards({ income, expense, balance }) {
 
       <div className="summary-card">
         <h3>Total Balance</h3>
-        <p>₹{balance}</p>
+        <p>{formatCurrency(balance)}</p>
       </div>
 
       <div className="summary-card">
         <h3>Total Income</h3>
-        <p>₹{income}</p>
+        <p>{formatCurrency(income)}</p>
       </div>
 
       <div className="summary-card">
         <h3>Total Expenses</h3>
-        <p>₹{expense}</p>
+        <p>{formatCurrency(expense)}</p>
       </div>
 
     </div>
