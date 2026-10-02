@@ -11,6 +11,8 @@ function TransactionList({
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("latest");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
 
   const filteredTransactions = transactions.filter((transaction) => {
 
@@ -21,7 +23,18 @@ function TransactionList({
       transaction.title.toLowerCase().includes(search.toLowerCase()) ||
       transaction.category.toLowerCase().includes(search.toLowerCase());
 
-    return matchesFilter && matchesSearch;
+    const matchesFromDate =
+      !dateFrom || transaction.date >= dateFrom;
+
+    const matchesToDate =
+      !dateTo || transaction.date <= dateTo;
+
+    return (
+      matchesFilter &&
+      matchesSearch &&
+      matchesFromDate &&
+      matchesToDate
+    );
   });
 
   const sortedTransactions = [...filteredTransactions].sort((a, b) => {
@@ -57,6 +70,26 @@ function TransactionList({
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+
+      <div className="date-filter">
+
+        <label>From</label>
+
+        <input
+          type="date"
+          value={dateFrom}
+          onChange={(e) => setDateFrom(e.target.value)}
+        />
+
+        <label>To</label>
+
+        <input
+          type="date"
+          value={dateTo}
+          onChange={(e) => setDateTo(e.target.value)}
+        />
+
+      </div>
 
       <select
         value={sort}

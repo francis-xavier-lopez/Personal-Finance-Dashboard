@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+.charts-page {
+  padding: 28px clamp(16px, 3vw, 40px) 48px;
+  font-family: "Poppins", system-ui, sans-serif;
+  color: #111827;
+  background: #fff;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.charts-page *,
+.charts-page *::before,
+.charts-page *::after {
+  box-sizing: border-box;
+}
+
+/* Header */
+.charts-header {
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid #eef0f2;
+}
+
+.charts-header h1 {
+  margin: 0 0 4px;
+  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.charts-header p {
+  margin: 0;
+  color: #9ca3af;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+}
+
+/* Monthly summary strip */
+.summary-card {
+  margin-bottom: 28px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(17, 24, 39, 0.05);
+  overflow-x: auto;
+}
+
+/* Charts grid: two columns on desktop */
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.chart-card {
+  min-width: 0; /* lets charts shrink instead of overflowing */
+  min-height: 340px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  border-top: 5px solid #1fd5b5;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(17, 24, 39, 0.05);
+}
+
+.chart-card.expense-card {
+  border-top-color: #ffc107;
+}
+
+/* Make common chart output scale with the card */
+.chart-card canvas,
+.chart-card svg,
+.chart-card img {
+  max-width: 100%;
+}
+
+.chart-card h2,
+.chart-card h3,
+.summary-card h2,
+.summary-card h3 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Tablet and mobile: stack the charts */
+@media (max-width: 900px) {
+  .charts-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .chart-card {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .summary-card,
+  .chart-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .chart-card {
+    min-height: 260px;
+  }
+}

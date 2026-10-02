@@ -1,27 +1,65 @@
+/* The white card, border and shadow come from .summary-card in charts.css */
 .monthly-summary {
-  width: 700px;
-  margin: 30px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: white;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
 }
 
 .monthly-summary h2 {
-  margin-bottom: 20px;
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
 }
 
 .monthly-items {
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  text-align: left;
 }
 
-.monthly-items div {
-  flex: 1;
+.monthly-items .tile {
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: #f4f6f8;
+}
+
+.monthly-items h3 {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #6b7280;
 }
 
 .monthly-items p {
-  font-size: 20px;
-  font-weight: bold;
+  margin: 0;
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  font-weight: 700;
+  color: #111827;
+  overflow-wrap: anywhere;
+}
+
+.tile-income   { background: #e3faf5; }
+.tile-expense  { background: #fff4cc; }
+.tile-savings  { background: #dff0f5; }
+.tile-negative { background: #fee2e2; }
+.tile-negative p { color: #dc2626; }
+
+@media (max-width: 900px) {
+  .monthly-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .monthly-items {
+    gap: 12px;
+  }
+
+  .monthly-items .tile {
+    padding: 14px;
+  }
 }

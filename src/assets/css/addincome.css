@@ -1,17 +1,107 @@
 .income-container {
-  margin: 30px 40px;
-  padding: 25px;
-  background-color: white;
-  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 14px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: "Poppins", system-ui, sans-serif;
+  box-sizing: border-box;
 }
 
-.income-container input {
-  padding: 10px;
-  width: 250px;
-  margin-right: 10px;
+.income-container *,
+.income-container *::before,
+.income-container *::after {
+  box-sizing: border-box;
 }
 
-.income-container button {
-  padding: 10px 20px;
+/* Full-width rows */
+.income-container > h2,
+.income-container > .full,
+.income-container > .submit-btn {
+  grid-column: 1 / -1;
+}
+
+.income-container > h2 {
+  margin: 0 0 2px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.income-container .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.income-container input,
+.income-container select {
+  width: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 1rem; /* prevents iOS zoom on focus */
+  color: #111827;
+  background: #fafbfc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.income-container input::placeholder {
+  color: #9ca3af;
+}
+
+.income-container input:focus,
+.income-container select:focus {
+  outline: none;
+  border-color: #1fd5b5;
+  box-shadow: 0 0 0 3px rgba(31, 213, 181, 0.2);
+}
+
+/* Validation */
+.income-container input.invalid,
+.income-container select.invalid {
+  border-color: #ef4444;
+  background: #fff8f8;
+}
+
+.income-container input.invalid:focus,
+.income-container select.invalid:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18);
+}
+
+.income-container .field-error {
+  padding-left: 4px;
+  font-size: 0.8rem;
+  color: #dc2626;
+}
+
+/* Button */
+.income-container .submit-btn {
+  padding: 13px 18px;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: #1fd5b5;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.income-container .submit-btn:hover {
+  background: #0fb99b;
+}
+
+.income-container .submit-btn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 480px) {
+  .income-container {
+    grid-template-columns: 1fr;
+  }
 }

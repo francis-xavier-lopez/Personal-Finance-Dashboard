@@ -1,0 +1,121 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  padding: 32px 20px;
+  background: #fdf8f6;
+  border-right: 1px solid #f1e8e4;
+  font-family: "Poppins", system-ui, sans-serif;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.sidebar *,
+.sidebar *::before,
+.sidebar *::after {
+  box-sizing: border-box;
+}
+
+/* Brand */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 48px;
+  padding-left: 8px;
+  color: #1fd5b5;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+}
+
+.brand-icon {
+  font-size: 1.4rem;
+}
+
+/* Nav */
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-title {
+  margin: 0 0 10px 8px;
+  color: #1fd5b5;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.sidebar button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #4b5563;
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.sidebar button:hover {
+  background: rgba(255, 255, 255, 0.8);
+  color: #0fb99b;
+}
+
+.sidebar button.active {
+  background: #fff;
+  color: #0fb99b;
+  font-weight: 600;
+  box-shadow: 0 2px 12px rgba(31, 213, 181, 0.18);
+}
+
+.sidebar button:focus-visible {
+  outline: 2px solid #0fb99b;
+  outline-offset: 2px;
+}
+
+.nav-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+/* Tablet / mobile: collapse to icons only */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 72px;
+    padding: 24px 10px;
+  }
+
+  .sidebar-brand {
+    justify-content: center;
+    margin-bottom: 32px;
+    padding-left: 0;
+  }
+
+  .brand-text,
+  .nav-label,
+  .sidebar-title {
+    display: none;
+  }
+
+  .sidebar button {
+    justify-content: center;
+    padding: 12px 0;
+  }
+
+  .nav-icon {
+    font-size: 1.3rem;
+  }
+}

@@ -1,0 +1,11 @@
+.transactions-page {
+  padding: 30px;
+}
+
+.transactions-page h1 {
+  margin-bottom: 5px;
+}
+
+.transactions-page > p {
+  margin-bottom: 30px;
+}

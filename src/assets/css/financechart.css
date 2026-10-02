@@ -1,0 +1,27 @@
+/* The white card, border and shadow come from .chart-card in charts.css */
+.finance-chart {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.finance-chart h2 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.finance-chart .chart-area {
+  position: relative;
+  width: 100%;
+  height: 280px;
+}
+
+@media (max-width: 480px) {
+  .finance-chart .chart-area {
+    height: 240px;
+  }
+}
