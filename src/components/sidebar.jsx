@@ -6,7 +6,7 @@ const items = [
   { id: "charts", label: "Charts", icon: "📊" },
 ];
 
-function Sidebar({ activePage, setActivePage }) {
+function Sidebar({ activePage, setActivePage, onLogout }) {
   return (
     <aside className="sidebar">
       <h2 className="sidebar-brand">
@@ -30,6 +30,28 @@ function Sidebar({ activePage, setActivePage }) {
           </button>
         ))}
       </nav>
+
+      {/* Pinned to the bottom */}
+      <div className="sidebar-bottom">
+        <button
+          className={activePage === "settings" ? "active" : ""}
+          onClick={() => setActivePage("settings")}
+          aria-current={activePage === "settings" ? "page" : undefined}
+          title="Settings"
+        >
+          <span className="nav-icon" aria-hidden="true">⚙️</span>
+          <span className="nav-label">Settings</span>
+        </button>
+
+        <button
+          className="logout-btn"
+          onClick={onLogout}
+          title="Logout"
+        >
+          <span className="nav-icon" aria-hidden="true">🚪</span>
+          <span className="nav-label">Logout</span>
+        </button>
+      </div>
     </aside>
   );
 }

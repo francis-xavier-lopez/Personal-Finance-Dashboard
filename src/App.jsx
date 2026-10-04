@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Sidebar from "./components/sidebar";
 
@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard";
 import Transactions from "./pages/transactions";
 import Charts from "./pages/charts";
 import "./assets/css/app.css";
+import api from "./api/api";
 
 function App() {
 
@@ -16,32 +17,31 @@ function App() {
 
   const balance = income - expense;
 
-  const [transactions, setTransactions] = useState([
-    {
-      id: 1,
-      title: "Salary",
-      type: "income",
-      amount: 40000,
-      category: "Salary",
-      date: "2026-09-28"
-    },
-    {
-      id: 2,
-      title: "Food",
-      type: "expense",
-      amount: 500,
-      category: "Food",
-      date: "2026-09-28"
-    },
-    {
-      id: 3,
-      title: "Travel",
-      type: "expense",
-      amount: 300,
-      category: "Travel",
-      date: "2026-09-28"
-    }
-  ]);
+  const [transactions, setTransactions] = useState([]);
+    useEffect(() => {
+
+      const fetchTransactions = async () => {
+
+        try {
+
+          const response = await api.get("transactions/");
+
+          setTransactions(response.data);
+
+        } catch (error) {
+
+          console.error(
+            "Error fetching transactions:",
+            error
+          );
+
+        }
+
+      };
+
+      fetchTransactions();
+
+    }, []);
 
   const deleteTransaction = (id) => {
     const confirmDelete = window.confirm(

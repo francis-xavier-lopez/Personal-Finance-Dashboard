@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../assets/css/addexpense.css";
+import api from "../api/api";
 
 function AddExpense({ setExpense, setTransactions }) {
   const [amount, setAmount] = useState("");
@@ -24,31 +25,38 @@ function AddExpense({ setExpense, setTransactions }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate()) return;
 
     const newExpense = Number(amount);
 
-    setExpense((previousExpense) => previousExpense + newExpense);
+    try {
+      const response = await api.post("transactions/", {
+        title: title.trim(),
+        type: "expense",
+        amount: newExpense,
+        category: category,
+        date: new Date().toISOString().split("T")[0],
+      });
 
-    const newTransaction = {
-      id: Date.now(),
-      title: title.trim(),
-      type: "expense",
-      amount: newExpense,
-      category,
-      date: new Date().toISOString().split("T")[0],
-    };
+      // Add the transaction returned by Django
+      setTransactions((previousTransactions) => [
+        ...previousTransactions,
+        response.data,
+      ]);
 
-    setTransactions((previousTransactions) => [
-      ...previousTransactions,
-      newTransaction,
-    ]);
+      // Update expense total
+      setExpense((previousExpense) => previousExpense + newExpense);
 
-    setAmount("");
-    setTitle("");
-    setCategory("");
-    setErrors({});
+      // Clear form
+      setAmount("");
+      setTitle("");
+      setCategory("");
+      setErrors({});
+
+    } catch (error) {
+      console.error("Error adding expense:", error);
+    }
   };
 
   return (

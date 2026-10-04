@@ -8,22 +8,23 @@ function Transactions({
   editTransaction,
   editingTransaction,
   setEditingTransaction,
-  saveEdit
+  saveEdit,
 }) {
-
   return (
     <div className="transactions-page">
-
-      <h1>Transactions</h1>
-
-      <p>View and manage all your transactions</p>
+      <header className="transactions-header">
+        <h1>Transactions</h1>
+        <p>View and manage all your transactions</p>
+      </header>
 
       {editingTransaction && (
-        <EditTransaction
-          editingTransaction={editingTransaction}
-          setEditingTransaction={setEditingTransaction}
-          saveEdit={saveEdit}
-        />
+        <div className="edit-wrapper">
+          <EditTransaction
+            editingTransaction={editingTransaction}
+            setEditingTransaction={setEditingTransaction}
+            saveEdit={saveEdit}
+          />
+        </div>
       )}
 
       <TransactionList
@@ -31,7 +32,6 @@ function Transactions({
         deleteTransaction={deleteTransaction}
         editTransaction={editTransaction}
       />
-
     </div>
   );
 }

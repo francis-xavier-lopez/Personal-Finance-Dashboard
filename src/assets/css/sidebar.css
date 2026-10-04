@@ -12,6 +12,8 @@
   font-family: "Poppins", system-ui, sans-serif;
   box-sizing: border-box;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar *,
@@ -89,6 +91,25 @@
 .nav-icon {
   font-size: 1.15rem;
   line-height: 1;
+}
+
+/* Bottom section: Settings + Logout */
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #f1e8e4;
+}
+
+.sidebar .logout-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.sidebar .logout-btn:focus-visible {
+  outline-color: #dc2626;
 }
 
 /* Tablet / mobile: collapse to icons only */

@@ -1,11 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
 .transactions-page {
-  padding: 30px;
+  min-height: 100vh;
+  padding: 28px clamp(16px, 3vw, 40px) 48px;
+  font-family: "Poppins", system-ui, sans-serif;
+  color: #111827;
+  background: #fff;
+  box-sizing: border-box;
 }
 
-.transactions-page h1 {
-  margin-bottom: 5px;
+.transactions-page *,
+.transactions-page *::before,
+.transactions-page *::after {
+  box-sizing: border-box;
 }
 
-.transactions-page > p {
-  margin-bottom: 30px;
+/* Header (matches the Charts page) */
+.transactions-header {
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid #eef0f2;
+}
+
+.transactions-header h1 {
+  margin: 0 0 4px;
+  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.transactions-header p {
+  margin: 0;
+  color: #9ca3af;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+}
+
+/* Space around the edit form when it appears */
+.edit-wrapper {
+  margin-bottom: 28px;
 }

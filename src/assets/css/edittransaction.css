@@ -1,31 +1,191 @@
 .edit-transaction {
-  width: 400px;
-  margin: 30px auto;
-  padding: 25px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: white;
-}
-
-.edit-transaction h2 {
-  margin-bottom: 20px;
-}
-
-.edit-transaction input {
-  display: block;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 14px;
   width: 100%;
+  margin: 0;
+  padding: 26px;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  border-top: 5px solid #1fd5b5;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(17, 24, 39, 0.05);
+  font-family: "Poppins", system-ui, sans-serif;
+  color: #111827;
+  scroll-margin-top: 16px;
   box-sizing: border-box;
-  margin-bottom: 15px;
-  padding: 10px;
 }
 
-.edit-transaction button {
-  padding: 10px 15px;
-  margin-right: 10px;
+.edit-transaction.expense {
+  border-top-color: #ffc107;
 }
 
-.edit-transaction label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+.edit-transaction *,
+.edit-transaction *::before,
+.edit-transaction *::after {
+  box-sizing: border-box;
+}
+
+.edit-transaction .full {
+  grid-column: 1 / -1;
+}
+
+/* Header */
+.edit-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.edit-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.type-badge {
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.edit-transaction.income .type-badge {
+  background: #e3faf5;
+  color: #0b8f78;
+}
+
+.edit-transaction.expense .type-badge {
+  background: #fff4cc;
+  color: #8a6500;
+}
+
+/* Fields */
+.edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.edit-field label {
+  padding-left: 2px;
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.edit-transaction input,
+.edit-transaction select {
+  width: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 1rem; /* prevents iOS zoom on focus */
+  color: #111827;
+  background: #fafbfc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.edit-transaction input:focus,
+.edit-transaction select:focus {
+  outline: none;
+  border-color: #1fd5b5;
+  box-shadow: 0 0 0 3px rgba(31, 213, 181, 0.2);
+}
+
+.edit-transaction.expense input:focus,
+.edit-transaction.expense select:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.25);
+}
+
+/* Validation */
+.edit-transaction input.invalid,
+.edit-transaction select.invalid {
+  border-color: #ef4444;
+  background: #fff8f8;
+}
+
+.edit-transaction input.invalid:focus,
+.edit-transaction select.invalid:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18);
+}
+
+.field-error {
+  padding-left: 4px;
+  font-size: 0.8rem;
+  color: #dc2626;
+}
+
+/* Actions */
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.edit-actions button {
+  padding: 12px 22px;
+  font: inherit;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.edit-actions button:active {
+  transform: scale(0.98);
+}
+
+.cancel-btn {
+  color: #4b5563;
+  background: transparent;
+  border: 1px solid #e5e7eb;
+}
+
+.cancel-btn:hover {
+  background: #f3f4f6;
+}
+
+.save-btn {
+  color: #fff;
+  background: #1fd5b5;
+  border: 1px solid transparent;
+}
+
+.save-btn:hover {
+  background: #0fb99b;
+}
+
+.edit-transaction.expense .save-btn {
+  color: #3b2f00;
+  background: #ffc107;
+}
+
+.edit-transaction.expense .save-btn:hover {
+  background: #e6ac00;
+}
+
+.edit-transaction :focus-visible {
+  outline: 2px solid #0fb99b;
+  outline-offset: 2px;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .edit-transaction {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .edit-actions button {
+    flex: 1;
+  }
 }
