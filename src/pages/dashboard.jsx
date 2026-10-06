@@ -12,8 +12,6 @@ function Dashboard({
   income,
   expense,
   balance,
-  setIncome,
-  setExpense,
   setTransactions,
 }) {
   const today = new Date().toLocaleDateString(undefined, {
@@ -99,11 +97,10 @@ function Dashboard({
         <h2 className="section-title">Add Transaction</h2>
         <section className="forms-container">
           <div className="form-card income-card">
-            <AddIncome setIncome={setIncome} setTransactions={setTransactions} />
+            <AddIncome setTransactions={setTransactions} />
           </div>
           <div className="form-card expense-card">
             <AddExpense
-              setExpense={setExpense}
               setTransactions={setTransactions}
             />
           </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../assets/css/addexpense.css";
 import api from "../api/api";
 
-function AddExpense({ setExpense, setTransactions }) {
+function AddExpense({ setTransactions }) {
   const [amount, setAmount] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -45,8 +45,6 @@ function AddExpense({ setExpense, setTransactions }) {
         response.data,
       ]);
 
-      // Update expense total
-      setExpense((previousExpense) => previousExpense + newExpense);
 
       // Clear form
       setAmount("");

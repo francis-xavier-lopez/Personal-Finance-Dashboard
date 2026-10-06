@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../assets/css/addincome.css";
 import api from "../api/api";
 
-function AddIncome({ setIncome, setTransactions }) {
+function AddIncome({ setTransactions }) {
   const [amount, setAmount] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -45,7 +45,6 @@ function AddIncome({ setIncome, setTransactions }) {
         response.data,
       ]);
 
-      setIncome((previousIncome) => previousIncome + newIncome);
 
       // Clear form
       setAmount("");

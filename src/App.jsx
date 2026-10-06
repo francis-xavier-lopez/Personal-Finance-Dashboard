@@ -7,43 +7,66 @@ import Transactions from "./pages/transactions";
 import Charts from "./pages/charts";
 import "./assets/css/app.css";
 import api from "./api/api";
+import Login from "./components/login";
+import Register from "./components/register";
 
 function App() {
 
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("accessToken")
+  );
+
+  const [showLogin, setShowLogin] = useState(true);
+
   const [activePage, setActivePage] = useState("dashboard");
 
-  const [income, setIncome] = useState(40000);
-  const [expense, setExpense] = useState(25000);
-
-  const balance = income - expense;
-
   const [transactions, setTransactions] = useState([]);
-    useEffect(() => {
 
-      const fetchTransactions = async () => {
+  useEffect(() => {
 
-        try {
+    if (!isLoggedIn) {
+      return;
+    }
 
-          const response = await api.get("transactions/");
+    const fetchTransactions = async () => {
 
-          setTransactions(response.data);
+      try {
 
-        } catch (error) {
+        const response = await api.get("transactions/");
 
-          console.error(
-            "Error fetching transactions:",
-            error
-          );
+        setTransactions(response.data);
 
-        }
+      } catch (error) {
 
-      };
+        console.error("Error fetching transactions:", error);
 
-      fetchTransactions();
+      }
 
-    }, []);
+    };
 
-  const deleteTransaction = (id) => {
+    fetchTransactions();
+
+  }, [isLoggedIn]);
+
+
+    const income = transactions
+      .filter((transaction) => transaction.type === "income")
+      .reduce(
+        (total, transaction) => total + Number(transaction.amount),
+        0
+      );
+
+    const expense = transactions
+      .filter((transaction) => transaction.type === "expense")
+      .reduce(
+        (total, transaction) => total + Number(transaction.amount),
+        0
+      );
+
+    const balance = income - expense;
+
+  const deleteTransaction = async (id) => {
+
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this transaction?"
     );
@@ -52,11 +75,21 @@ function App() {
       return;
     }
 
-    setTransactions((currentTransactions) =>
-      currentTransactions.filter(
-        (transaction) => transaction.id !== id
-      )
-    );
+    try {
+
+      await api.delete(`transactions/${id}/`);
+
+      setTransactions((currentTransactions) =>
+        currentTransactions.filter(
+          (transaction) => transaction.id !== id
+        )
+      );
+
+    } catch (error) {
+
+      console.error("Error deleting transaction:", error);
+
+    }
   };
 
   const [editingTransaction, setEditingTransaction] = useState(null);
@@ -69,18 +102,57 @@ function App() {
     setEditingTransaction(transaction);
   };
 
-  const saveEdit = () => {
+  const saveEdit = async () => {
 
-    setTransactions((currentTransactions) =>
-      currentTransactions.map((transaction) =>
-        transaction.id === editingTransaction.id
-          ? editingTransaction
-          : transaction
-      )
-    );
+    try {
 
-    setEditingTransaction(null);
+      const response = await api.put(
+        `transactions/${editingTransaction.id}/`,
+        {
+          title: editingTransaction.title,
+          amount: editingTransaction.amount,
+          type: editingTransaction.type,
+          category: editingTransaction.category,
+          date: editingTransaction.date,
+        }
+      );
+
+      setTransactions((currentTransactions) =>
+        currentTransactions.map((transaction) =>
+          transaction.id === editingTransaction.id
+            ? response.data
+            : transaction
+        )
+      );
+
+      setEditingTransaction(null);
+
+    } catch (error) {
+
+      console.error("Error updating transaction:", error);
+
+    }
   };
+
+  if (!isLoggedIn) {
+    return showLogin ? (
+      <div>
+        <Login setIsLoggedIn={setIsLoggedIn} />
+
+        <button onClick={() => setShowLogin(false)}>
+          Create an account
+        </button>
+      </div>
+    ) : (
+      <div>
+        <Register setShowLogin={setShowLogin} />
+
+        <button onClick={() => setShowLogin(true)}>
+          Back to Login
+        </button>
+      </div>
+    );
+  }
 
   const renderPage = () => {
 
@@ -90,8 +162,6 @@ function App() {
           income={income}
           expense={expense}
           balance={balance}
-          setIncome={setIncome}
-          setExpense={setExpense}
           setTransactions={setTransactions}
         />
       );
