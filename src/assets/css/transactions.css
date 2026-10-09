@@ -35,7 +35,74 @@
   font-size: clamp(0.85rem, 2vw, 0.95rem);
 }
 
+/* ---------- Month filter (NEW) ---------- */
+.transaction-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding: 5px 5px 5px 16px;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(17, 24, 39, 0.05);
+}
+
+.transaction-filter label {
+  color: #6b7280;
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.transaction-filter select {
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 170px;
+  padding: 8px 38px 8px 14px;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #111827;
+  background-color: #e3faf5;
+  /* teal chevron arrow */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%230fb99b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.transaction-filter select:hover {
+  background-color: #d3f6ee;
+}
+
+.transaction-filter select:focus {
+  outline: none;
+  border-color: #1fd5b5;
+  box-shadow: 0 0 0 3px rgba(31, 213, 181, 0.2);
+}
+
 /* Space around the edit form when it appears */
 .edit-wrapper {
   margin-bottom: 28px;
+}
+
+/* ---------- Mobile: filter takes the full width ---------- */
+@media (max-width: 600px) {
+  .transaction-filter {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .transaction-filter select {
+    flex: 1;
+    min-width: 0;
+    max-width: 220px;
+    font-size: 1rem; /* avoids iOS zoom on focus */
+  }
 }

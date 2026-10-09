@@ -21,13 +21,12 @@
 }
 
 .dashboard-page {
-  display: block;          /* was: display: grid + grid-template-columns */
+  display: block;
   min-height: 100vh;
   font-family: "Poppins", system-ui, sans-serif;
   color: var(--ink);
   background: #fff;
 }
-
 
 /* ---------- Main ---------- */
 .main {
@@ -39,6 +38,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;               /* NEW: lets the month selector drop to its own row */
+  gap: 14px 20px;                /* NEW */
   padding-bottom: 20px;
   border-bottom: 1px solid var(--line);
 }
@@ -47,6 +48,57 @@
   color: var(--teal);
   font-size: clamp(1rem, 2.4vw, 1.3rem);
   font-weight: 400;
+}
+
+/* ---------- Month selector (NEW) ---------- */
+.month-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 5px 5px 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(17, 24, 39, 0.05);
+}
+
+.month-selector label {
+  color: #6b7280;
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.month-selector input[type="month"] {
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink);
+  background: #e3faf5;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.month-selector input[type="month"]:hover {
+  background: #d3f6ee;
+}
+
+.month-selector input[type="month"]:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(31, 213, 181, 0.2);
+}
+
+.month-selector input[type="month"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.month-selector input[type="month"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }
 
 .user {
@@ -254,7 +306,6 @@
   }
 }
 
-
 /* ---------- Mobile ---------- */
 @media (max-width: 700px) {
   .forms-container {
@@ -263,6 +314,24 @@
 
   .user span {
     display: none;
+  }
+
+  /* NEW: date + avatar on the first row, month selector full width below */
+  .date {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .month-selector {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .month-selector input[type="month"] {
+    flex: 1;
+    max-width: 200px;
+    font-size: 1rem; /* avoids iOS zoom on focus */
   }
 
   .stats-strip {
@@ -295,4 +364,3 @@
     padding: 20px;
   }
 }
-

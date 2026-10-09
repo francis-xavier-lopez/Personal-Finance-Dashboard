@@ -9,6 +9,8 @@ import "./assets/css/app.css";
 import api from "./api/api";
 import Login from "./components/login";
 import Register from "./components/register";
+import Settings from "./pages/settings";
+import Reports from "./pages/reports";
 
 function App() {
 
@@ -21,6 +23,10 @@ function App() {
   const [activePage, setActivePage] = useState("dashboard");
 
   const [transactions, setTransactions] = useState([]);
+  
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().toISOString().slice(0, 7)
+  );
 
   useEffect(() => {
 
@@ -49,21 +55,27 @@ function App() {
   }, [isLoggedIn]);
 
 
-    const income = transactions
-      .filter((transaction) => transaction.type === "income")
-      .reduce(
-        (total, transaction) => total + Number(transaction.amount),
-        0
-      );
+      
+  const filteredTransactions = transactions.filter((transaction) => {
+    return transaction.date?.startsWith(selectedMonth);
+  });
 
-    const expense = transactions
-      .filter((transaction) => transaction.type === "expense")
-      .reduce(
-        (total, transaction) => total + Number(transaction.amount),
-        0
-      );
+  const income = filteredTransactions
+    .filter((transaction) => transaction.type === "income")
+    .reduce(
+      (total, transaction) => total + Number(transaction.amount),
+      0
+    );
 
-    const balance = income - expense;
+  const expense = filteredTransactions
+    .filter((transaction) => transaction.type === "expense")
+    .reduce(
+      (total, transaction) => total + Number(transaction.amount),
+      0
+    );
+
+  const balance = income - expense;
+
 
   const deleteTransaction = async (id) => {
 
@@ -134,23 +146,19 @@ function App() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
+    setIsLoggedIn(false);
+    setTransactions([]);
+  };
+
   if (!isLoggedIn) {
     return showLogin ? (
-      <div>
-        <Login setIsLoggedIn={setIsLoggedIn} />
-
-        <button onClick={() => setShowLogin(false)}>
-          Create an account
-        </button>
-      </div>
+      <Login setIsLoggedIn={setIsLoggedIn} setShowLogin={setShowLogin} />
     ) : (
-      <div>
-        <Register setShowLogin={setShowLogin} />
-
-        <button onClick={() => setShowLogin(true)}>
-          Back to Login
-        </button>
-      </div>
+      <Register setShowLogin={setShowLogin} />
     );
   }
 
@@ -163,6 +171,8 @@ function App() {
           expense={expense}
           balance={balance}
           setTransactions={setTransactions}
+          selectedMonth={selectedMonth}
+          setSelectedMonth={setSelectedMonth}
         />
       );
     }
@@ -185,9 +195,17 @@ function App() {
         <Charts
           income={income}
           expense={expense}
-          transactions={transactions}
+          transactions={filteredTransactions}
         />
       );
+    }
+
+    if (activePage === "settings") {
+      return <Settings />;
+    }
+
+    if (activePage === "reports") {
+      return <Reports transactions={transactions} />;
     }
 
   };
@@ -198,6 +216,7 @@ function App() {
       <Sidebar
         activePage={activePage}
         setActivePage={setActivePage}
+        onLogout={handleLogout}
       />
 
       <main className="main-content">

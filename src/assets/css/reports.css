@@ -1,0 +1,199 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+.reports-page {
+  min-height: 100vh;
+  padding: 28px clamp(16px, 3vw, 40px) 48px;
+  font-family: "Poppins", system-ui, sans-serif;
+  color: #111827;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.reports-page *,
+.reports-page *::before,
+.reports-page *::after {
+  box-sizing: border-box;
+}
+
+/* Header (matches Charts, Transactions and Settings) */
+.reports-header {
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid #eef0f2;
+}
+
+.reports-header h1 {
+  margin: 0 0 4px;
+  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.reports-header p {
+  margin: 0;
+  color: #9ca3af;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+}
+
+/* ---------- Card: title on the left, Export button on the right ---------- */
+.reports-table-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px 16px;
+  padding: 26px;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  border-top: 5px solid #1fd5b5;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(17, 24, 39, 0.05);
+}
+
+.reports-table-card > h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Everything else (table, empty message) spans the full width */
+.reports-table-card > :not(h2):not(.export-csv-btn) {
+  grid-column: 1 / -1;
+}
+
+/* ---------- Export button ---------- */
+.export-csv-btn {
+  padding: 10px 20px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: #1fd5b5;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, opacity 0.2s;
+}
+
+.export-csv-btn:hover:not(:disabled) {
+  background: #0fb99b;
+}
+
+.export-csv-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.export-csv-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Empty state ---------- */
+.reports-table-card > p {
+  margin: 0;
+  padding: 40px 20px;
+  color: #9ca3af;
+  font-size: 0.95rem;
+  text-align: center;
+  background: #fafbfc;
+  border: 1px dashed #e5e7eb;
+  border-radius: 16px;
+}
+
+/* ---------- Table ---------- */
+.reports-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #eef0f2;
+  border-radius: 16px;
+}
+
+.reports-table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.reports-table th {
+  padding: 14px 18px;
+  color: #6b7280;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  background: #fafbfc;
+  border-bottom: 1px solid #eef0f2;
+}
+
+.reports-table td {
+  padding: 16px 18px;
+  white-space: nowrap;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.reports-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.reports-table tbody tr {
+  transition: background 0.15s;
+}
+
+.reports-table tbody tr:hover {
+  background: #f7fdfb;
+}
+
+/* Month column */
+.reports-table td:first-child {
+  font-weight: 500;
+}
+
+/* Number columns: right-aligned and evenly spaced digits */
+.reports-table th:nth-child(n + 2),
+.reports-table td:nth-child(n + 2) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.reports-table td.report-income,
+.reports-table td.report-expense {
+  font-weight: 600;
+}
+
+.report-income {
+  color: #0fb99b;
+}
+
+.report-expense {
+  color: #dc2626;
+}
+
+.reports-page :focus-visible {
+  outline: 2px solid #0fb99b;
+  outline-offset: 2px;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 600px) {
+  .reports-table-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .reports-table th,
+  .reports-table td {
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  /* Stack the title and give the export button the full width */
+  .reports-table-card {
+    grid-template-columns: 1fr;
+  }
+
+  .export-csv-btn {
+    width: 100%;
+  }
+}

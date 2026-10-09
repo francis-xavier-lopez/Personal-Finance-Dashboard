@@ -4,6 +4,7 @@ const items = [
   { id: "dashboard", label: "Dashboard", icon: "🏠" },
   { id: "transactions", label: "Transactions", icon: "💳" },
   { id: "charts", label: "Charts", icon: "📊" },
+  { id: "reports", label: "Reports", icon: "📑" },
 ];
 
 function Sidebar({ activePage, setActivePage, onLogout }) {

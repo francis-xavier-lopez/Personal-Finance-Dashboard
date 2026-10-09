@@ -1,0 +1,225 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+.settings-page {
+  min-height: 100vh;
+  padding: 28px clamp(16px, 3vw, 40px) 48px;
+  font-family: "Poppins", system-ui, sans-serif;
+  color: #111827;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.settings-page *,
+.settings-page *::before,
+.settings-page *::after {
+  box-sizing: border-box;
+}
+
+/* Header (matches Charts and Transactions) */
+.settings-header {
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid #eef0f2;
+}
+
+.settings-header h1 {
+  margin: 0 0 4px;
+  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.settings-header p {
+  margin: 0;
+  color: #9ca3af;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+}
+
+.settings-loading {
+  margin: 0;
+  padding: 40px 0;
+  color: #9ca3af;
+  text-align: center;
+}
+
+/* Two cards side by side on desktop */
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+  max-width: 1000px;
+}
+
+.settings-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 26px;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  border-top: 5px solid #1fd5b5;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(17, 24, 39, 0.05);
+}
+
+.settings-card.password-card {
+  border-top-color: #ffc107;
+}
+
+.settings-card h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Profile summary */
+.profile-summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 6px;
+}
+
+.profile-summary p {
+  margin: 2px 0 0;
+  color: #9ca3af;
+  font-size: 0.88rem;
+}
+
+.avatar-lg {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #1fd5b5;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+/* Fields */
+.settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-field label {
+  padding-left: 2px;
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.settings-field input {
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 1rem; /* prevents iOS zoom on focus */
+  color: #111827;
+  background: #fafbfc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.settings-field input::placeholder {
+  color: #9ca3af;
+}
+
+.settings-field input:focus {
+  outline: none;
+  border-color: #1fd5b5;
+  box-shadow: 0 0 0 3px rgba(31, 213, 181, 0.2);
+}
+
+.password-card .settings-field input:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.25);
+}
+
+/* Username is read-only */
+.settings-field input:disabled {
+  color: #6b7280;
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+/* Buttons */
+.settings-submit {
+  padding: 13px 18px;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: #1fd5b5;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.settings-submit:hover {
+  background: #0fb99b;
+}
+
+.settings-submit:active {
+  transform: scale(0.98);
+}
+
+.password-card .settings-submit {
+  color: #3b2f00;
+  background: #ffc107;
+}
+
+.password-card .settings-submit:hover {
+  background: #e6ac00;
+}
+
+/* Messages */
+.settings-alert {
+  margin: 0;
+  padding: 11px 14px;
+  font-size: 0.88rem;
+  border-radius: 12px;
+}
+
+.settings-alert.success {
+  color: #0b8f78;
+  background: #e3faf5;
+  border: 1px solid #b6f0e4;
+}
+
+.settings-alert.error {
+  color: #b91c1c;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.settings-page :focus-visible {
+  outline: 2px solid #0fb99b;
+  outline-offset: 2px;
+}
+
+/* Tablet / mobile: stack the cards */
+@media (max-width: 900px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .avatar-lg {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+}

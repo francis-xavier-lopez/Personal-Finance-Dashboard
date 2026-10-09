@@ -13,6 +13,8 @@ function Dashboard({
   expense,
   balance,
   setTransactions,
+  selectedMonth,
+  setSelectedMonth,
 }) {
   const today = new Date().toLocaleDateString(undefined, {
     weekday: "long",
@@ -29,30 +31,58 @@ function Dashboard({
 
       {/* Main */}
       <main className="main">
+        
         <header className="topbar">
           <span className="date">{today}</span>
+
+          <div className="month-selector">
+            <label htmlFor="selected-month">Select month:</label>
+            <input
+              id="selected-month"
+              type="month"
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+            />
+          </div>
+
           <div className="user">
             <span>Welcome back</span>
             <div className="avatar">U</div>
           </div>
         </header>
 
+
         {/* Stats strip */}
         <section className="stats-strip">
           <div className="stat">
             <small>Income from sources</small>
             <strong>{fmt(income)}</strong>
-            <small>Current month</small>
+            <small>
+              {new Date(`${selectedMonth}-02T12:00:00`).toLocaleDateString(
+                undefined,
+                { month: "long", year: "numeric" }
+              )}
+            </small>
           </div>
           <div className="stat">
             <small>Total expenses</small>
             <strong>{fmt(expense)}</strong>
-            <small>Current month</small>
+            <small>
+              {new Date(`${selectedMonth}-02T12:00:00`).toLocaleDateString(
+                undefined,
+                { month: "long", year: "numeric" }
+              )}
+            </small>
           </div>
           <div className="stat">
             <small>Total savings</small>
             <strong>{fmt(balance)}</strong>
-            <small>Current month</small>
+            <small>
+              {new Date(`${selectedMonth}-02T12:00:00`).toLocaleDateString(
+                undefined,
+                { month: "long", year: "numeric" }
+              )}
+            </small>
           </div>
         </section>
 
