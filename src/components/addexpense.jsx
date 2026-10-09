@@ -1,59 +1,104 @@
+
 import { useState } from "react";
 import "../assets/css/addexpense.css";
 import api from "../api/api";
+
+// Get today's date in local time
+const getLocalDate = () => {
+  const today = new Date();
+
+  return (
+    today.getFullYear() +
+    "-" +
+    String(today.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(today.getDate()).padStart(2, "0")
+  );
+};
 
 function AddExpense({ setTransactions }) {
   const [amount, setAmount] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [date, setDate] = useState(getLocalDate());
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Clear a field's error as soon as the user edits it
-  const clearError = (field) =>
-    setErrors((prev) => ({ ...prev, [field]: "" }));
+  // Clear a field's error when the user edits it
+  const clearError = (field) => {
+    setErrors((previousErrors) => ({
+      ...previousErrors,
+      [field]: "",
+    }));
+  };
 
+  // Validate the form
   const validate = () => {
     const newErrors = {};
 
-    if (!title.trim()) newErrors.title = "Enter a title for this expense.";
-    if (!category) newErrors.category = "Select a category.";
-    if (amount === "") newErrors.amount = "Enter an amount.";
-    else if (Number(amount) <= 0)
+    if (!title.trim()) {
+      newErrors.title = "Enter a title for this expense.";
+    }
+
+    if (!category) {
+      newErrors.category = "Select a category.";
+    }
+
+    if (amount === "") {
+      newErrors.amount = "Enter an amount.";
+    } else if (!Number.isFinite(Number(amount)) || Number(amount) <= 0) {
       newErrors.amount = "Amount must be greater than 0.";
+    }
+
+    if (!date) {
+      newErrors.date = "Select the expense date.";
+    } else if (date > getLocalDate()) {
+      newErrors.date = "Expense date cannot be in the future.";
+    }
 
     setErrors(newErrors);
+
     return Object.keys(newErrors).length === 0;
   };
 
+  // Submit expense to Django backend
   const handleSubmit = async () => {
-    if (!validate()) return;
+    if (isSubmitting || !validate()) return;
 
-    const newExpense = Number(amount);
+    setIsSubmitting(true);
 
     try {
       const response = await api.post("transactions/", {
         title: title.trim(),
         type: "expense",
-        amount: newExpense,
+        amount: Number(amount),
         category: category,
-        date: new Date().toISOString().split("T")[0],
+        date: date,
       });
 
-      // Add the transaction returned by Django
+      // Add the saved transaction to the dashboard
       setTransactions((previousTransactions) => [
         ...previousTransactions,
         response.data,
       ]);
 
-
-      // Clear form
+      // Reset the form
       setAmount("");
       setTitle("");
       setCategory("");
+      setDate(getLocalDate());
       setErrors({});
-
     } catch (error) {
       console.error("Error adding expense:", error);
+
+      setErrors((previousErrors) => ({
+        ...previousErrors,
+        submit:
+          error.response?.data?.detail ||
+          "Unable to add expense. Please try again.",
+      }));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -61,6 +106,7 @@ function AddExpense({ setTransactions }) {
     <div className="expense-container">
       <h2>Add Expense</h2>
 
+      {/* Expense title */}
       <div className="field full">
         <input
           type="text"
@@ -73,11 +119,15 @@ function AddExpense({ setTransactions }) {
             clearError("title");
           }}
         />
+
         {errors.title && (
-          <span className="field-error" role="alert">{errors.title}</span>
+          <span className="field-error" role="alert">
+            {errors.title}
+          </span>
         )}
       </div>
 
+      {/* Expense category */}
       <div className="field">
         <select
           value={category}
@@ -95,11 +145,15 @@ function AddExpense({ setTransactions }) {
           <option value="Bills">Bills</option>
           <option value="Other">Other</option>
         </select>
+
         {errors.category && (
-          <span className="field-error" role="alert">{errors.category}</span>
+          <span className="field-error" role="alert">
+            {errors.category}
+          </span>
         )}
       </div>
 
+      {/* Expense amount */}
       <div className="field">
         <input
           type="number"
@@ -114,13 +168,53 @@ function AddExpense({ setTransactions }) {
             clearError("amount");
           }}
         />
+
         {errors.amount && (
-          <span className="field-error" role="alert">{errors.amount}</span>
+          <span className="field-error" role="alert">
+            {errors.amount}
+          </span>
         )}
       </div>
 
-      <button className="submit-btn" onClick={handleSubmit}>
-        Add Expense
+      {/* Expense date */}
+      <div className="field full">
+        <label htmlFor="expense-date">Expense Date</label>
+
+        <input
+          id="expense-date"
+          type="date"
+          value={date}
+          max={getLocalDate()}
+          className={errors.date ? "invalid" : ""}
+          aria-invalid={!!errors.date}
+          onChange={(e) => {
+            setDate(e.target.value);
+            clearError("date");
+          }}
+        />
+
+        {errors.date && (
+          <span className="field-error" role="alert">
+            {errors.date}
+          </span>
+        )}
+      </div>
+
+      {/* Submission error */}
+      {errors.submit && (
+        <p className="field-error" role="alert">
+          {errors.submit}
+        </p>
+      )}
+
+      {/* Submit button */}
+      <button
+        type="button"
+        className="submit-btn"
+        onClick={handleSubmit}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Adding Expense..." : "Add Expense"}
       </button>
     </div>
   );

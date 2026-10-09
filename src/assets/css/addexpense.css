@@ -79,6 +79,40 @@
   color: #dc2626;
 }
 
+/* Field labels (used by the date field) */
+.expense-container .field label {
+  padding-left: 2px;
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Date input */
+.expense-container input[type="date"] {
+  min-height: 48px; /* iOS draws date inputs shorter than text inputs */
+  cursor: pointer;
+}
+
+.expense-container input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+.expense-container input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Submit error (from the server) shown above the button */
+.expense-container > .field-error {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 11px 14px;
+  font-size: 0.88rem;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+}
+
 /* Button */
 .expense-container .submit-btn {
   padding: 13px 18px;
@@ -92,12 +126,17 @@
   transition: background 0.2s, transform 0.1s;
 }
 
-.expense-container .submit-btn:hover {
+.expense-container .submit-btn:hover:not(:disabled) {
   background: #e6ac00;
 }
 
-.expense-container .submit-btn:active {
+.expense-container .submit-btn:active:not(:disabled) {
   transform: scale(0.98);
+}
+
+.expense-container .submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 @media (max-width: 480px) {

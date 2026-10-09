@@ -15,12 +15,134 @@
   text-align: left;
 }
 
+/* ---------- Insight cards ---------- */
+.expense-insights {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.expense-insight-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 16px 18px;
+  background: #f4f6f8;
+  border-radius: 16px;
+}
+
+/* Total = mint, Highest spending = amber (same palette as the dashboard) */
+.expense-insight-card:nth-child(1) {
+  background: #e3faf5;
+}
+
+.expense-insight-card:nth-child(2) {
+  background: #fff4cc;
+}
+
+.expense-insight-card span {
+  color: #6b7280;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.expense-insight-card strong {
+  color: #111827;
+  font-size: 1.2rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.expense-insight-card small {
+  color: #6b7280;
+  font-size: 0.78rem;
+}
+
+/* ---------- Doughnut ---------- */
 .expense-chart .chart-area {
   position: relative;
   width: 100%;
   height: 300px;
 }
 
+/* ---------- Spending by category ---------- */
+.category-breakdown {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid #eef0f2;
+}
+
+.category-breakdown h3 {
+  margin: 0 0 18px;
+  color: #111827;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.category-item {
+  margin-bottom: 18px;
+}
+
+.category-item:last-child {
+  margin-bottom: 0;
+}
+
+.category-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.category-item-header > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: #374151;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.category-item-header strong {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The dot and bar colors are set inline by the JSX to match the doughnut */
+.category-dot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.category-progress-track {
+  height: 8px;
+  margin-bottom: 6px;
+  background: #f1f3f5;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.category-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.category-item > small {
+  display: block;
+  color: #9ca3af;
+  font-size: 0.78rem;
+}
+
+/* ---------- Empty state ---------- */
 .expense-chart .empty-state {
   display: grid;
   place-items: center;
@@ -35,8 +157,17 @@
   border-radius: 16px;
 }
 
+/* ---------- Mobile ---------- */
 @media (max-width: 480px) {
+  .expense-insights {
+    grid-template-columns: 1fr;
+  }
+
   .expense-chart .chart-area {
     height: 280px;
+  }
+
+  .category-item-header {
+    font-size: 0.85rem;
   }
 }
