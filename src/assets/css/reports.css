@@ -35,12 +35,94 @@
   font-size: clamp(0.85rem, 2vw, 0.95rem);
 }
 
-/* ---------- Card: title on the left, Export button on the right ---------- */
-.reports-table-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+/* ---------- Month filter (NEW) ---------- */
+.reports-filter {
+  display: inline-flex;
   align-items: center;
-  gap: 18px 16px;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding: 5px 5px 5px 16px;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(17, 24, 39, 0.05);
+}
+
+.reports-filter label {
+  color: #6b7280;
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.reports-filter select {
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 170px;
+  padding: 8px 38px 8px 14px;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #111827;
+  background-color: #e3faf5;
+  /* teal chevron arrow */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%230fb99b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.reports-filter select:hover {
+  background-color: #d3f6ee;
+}
+
+.reports-filter select:focus {
+  outline: none;
+  border-color: #1fd5b5;
+  box-shadow: 0 0 0 3px rgba(31, 213, 181, 0.2);
+}
+
+/* ---------- Summary cards (NEW) ---------- */
+.reports-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.reports-summary-card {
+  min-width: 0;
+  padding: 20px 22px;
+  background: #f4f6f8;
+  border-radius: 20px;
+}
+
+/* Income = mint, Expenses = amber, Net balance = sky (dashboard palette) */
+.reports-summary-card:nth-child(1) { background: #e3faf5; }
+.reports-summary-card:nth-child(2) { background: #fff4cc; }
+.reports-summary-card:nth-child(3) { background: #dff0f5; }
+
+.reports-summary-card h3 {
+  margin: 0 0 8px;
+  color: #6b7280;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.reports-summary-card p {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Table card ---------- */
+.reports-table-card {
   padding: 26px;
   background: #fff;
   border: 1px solid #eef0f2;
@@ -49,15 +131,20 @@
   box-shadow: 0 8px 30px rgba(17, 24, 39, 0.05);
 }
 
-.reports-table-card > h2 {
+/* Title on the left, Export button on the right */
+.reports-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  margin-bottom: 18px;
+}
+
+.reports-table-header h2 {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
-}
-
-/* Everything else (table, empty message) spans the full width */
-.reports-table-card > :not(h2):not(.export-csv-btn) {
-  grid-column: 1 / -1;
 }
 
 /* ---------- Export button ---------- */
@@ -144,12 +231,11 @@
   background: #f7fdfb;
 }
 
-/* Month column */
 .reports-table td:first-child {
   font-weight: 500;
 }
 
-/* Number columns: right-aligned and evenly spaced digits */
+/* Number columns: right-aligned with evenly spaced digits */
 .reports-table th:nth-child(n + 2),
 .reports-table td:nth-child(n + 2) {
   text-align: right;
@@ -176,6 +262,19 @@
 
 /* ---------- Mobile ---------- */
 @media (max-width: 600px) {
+  .reports-filter {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .reports-filter select {
+    flex: 1;
+    min-width: 0;
+    max-width: 220px;
+    font-size: 1rem; /* avoids iOS zoom on focus */
+  }
+
   .reports-table-card {
     padding: 20px 16px;
     border-radius: 16px;
@@ -189,8 +288,9 @@
 
 @media (max-width: 420px) {
   /* Stack the title and give the export button the full width */
-  .reports-table-card {
-    grid-template-columns: 1fr;
+  .reports-table-header {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .export-csv-btn {

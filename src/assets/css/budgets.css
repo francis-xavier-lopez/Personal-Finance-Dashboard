@@ -1,0 +1,298 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+.budgets-page {
+  min-height: 100vh;
+  padding: 28px clamp(16px, 3vw, 40px) 48px;
+  font-family: "Poppins", system-ui, sans-serif;
+  color: #111827;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.budgets-page *,
+.budgets-page *::before,
+.budgets-page *::after {
+  box-sizing: border-box;
+}
+
+/* Header (matches the other pages) */
+.budgets-header {
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid #eef0f2;
+}
+
+.budgets-header h1 {
+  margin: 0 0 4px;
+  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.budgets-header p {
+  margin: 0;
+  color: #9ca3af;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+}
+
+/* ---------- Form card ----------
+   The <form> uses display: contents, so its label, input and button join
+   the card's grid: month + amount side by side, button underneath. */
+.budget-form-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 16px;
+  margin-bottom: 24px;
+  padding: 26px;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  border-top: 5px solid #1fd5b5;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(17, 24, 39, 0.05);
+}
+
+.budget-form-card form {
+  display: contents;
+}
+
+.budget-form-card label {
+  padding-left: 2px;
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.budget-form-card input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 1rem; /* prevents iOS zoom on focus */
+  color: #111827;
+  background: #fafbfc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.budget-form-card input::placeholder {
+  color: #9ca3af;
+}
+
+.budget-form-card input:focus {
+  outline: none;
+  border-color: #1fd5b5;
+  box-shadow: 0 0 0 3px rgba(31, 213, 181, 0.2);
+}
+
+.budget-form-card input[type="month"] {
+  cursor: pointer;
+}
+
+/* Grid placement */
+.budget-form-card > label       { grid-column: 1; grid-row: 1; }
+.budget-form-card > input       { grid-column: 1; grid-row: 2; }
+.budget-form-card form label    { grid-column: 2; grid-row: 1; }
+.budget-form-card form input    { grid-column: 2; grid-row: 2; }
+.budget-form-card form button   { grid-column: 1 / -1; grid-row: 3; }
+
+.budget-form-card form button {
+  margin-top: 12px;
+  padding: 13px 18px;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: #1fd5b5;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, opacity 0.2s;
+}
+
+.budget-form-card form button:hover:not(:disabled) {
+  background: #0fb99b;
+}
+
+.budget-form-card form button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.budget-form-card form button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Messages under the form */
+.budget-form-card > p {
+  grid-column: 1 / -1;
+  margin: 8px 0 0;
+}
+
+/* "Loading your budget..." has no class */
+.budget-form-card > p:not([class]) {
+  color: #9ca3af;
+  font-size: 0.88rem;
+}
+
+/* ---------- Message boxes (form card and progress card) ---------- */
+.budgets-page .budget-error,
+.budgets-page .budget-success,
+.budgets-page .budget-warning {
+  padding: 11px 14px;
+  font-size: 0.88rem;
+  border-radius: 12px;
+}
+
+.budgets-page .budget-error {
+  color: #b91c1c;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.budgets-page .budget-success {
+  color: #0b8f78;
+  background: #e3faf5;
+  border: 1px solid #b6f0e4;
+}
+
+.budgets-page .budget-warning {
+  color: #8a6500;
+  background: #fff4cc;
+  border: 1px solid #ffe08a;
+}
+
+/* ---------- Overview cards ---------- */
+.budget-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.budget-card {
+  min-width: 0;
+  padding: 20px 22px;
+  background: #f4f6f8;
+  border-radius: 20px;
+  transition: background 0.2s;
+}
+
+/* Budget = sky, Expenses = amber, Remaining = mint (dashboard palette) */
+.budget-card:nth-child(1) { background: #dff0f5; }
+.budget-card:nth-child(2) { background: #fff4cc; }
+.budget-card:nth-child(3) { background: #e3faf5; }
+
+/* Turns red when you are over budget (modern browsers) */
+.budget-card:has(.budget-negative) {
+  background: #fee2e2;
+}
+
+.budget-card h3 {
+  margin: 0 0 8px;
+  color: #6b7280;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.budget-card p {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.budget-positive {
+  color: #0fb99b;
+}
+
+.budget-negative {
+  color: #dc2626;
+}
+
+/* ---------- Progress card ---------- */
+.budget-progress-card {
+  padding: 26px;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  border-top: 5px solid #ffc107;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(17, 24, 39, 0.05);
+}
+
+.budget-progress-card h2 {
+  margin: 0 0 18px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.budget-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  color: #6b7280;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.budget-progress-track {
+  height: 14px;
+  background: #f1f3f5;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.budget-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1fd5b5, #0fb99b);
+  border-radius: 999px;
+  transition: width 0.5s ease, background 0.3s;
+}
+
+.budget-progress-fill.over-budget {
+  background: linear-gradient(90deg, #f87171, #dc2626);
+}
+
+.budget-progress-card > .budget-error,
+.budget-progress-card > .budget-success,
+.budget-progress-card > .budget-warning {
+  margin: 16px 0 0;
+}
+
+/* "Set a monthly budget to track..." (no class) */
+.budget-progress-card > p:not([class]) {
+  margin: 0;
+  padding: 32px 20px;
+  color: #9ca3af;
+  font-size: 0.95rem;
+  text-align: center;
+  background: #fafbfc;
+  border: 1px dashed #e5e7eb;
+  border-radius: 16px;
+}
+
+.budgets-page :focus-visible {
+  outline: 2px solid #0fb99b;
+  outline-offset: 2px;
+}
+
+/* ---------- Mobile: one column ---------- */
+@media (max-width: 600px) {
+  .budget-form-card {
+    grid-template-columns: 1fr;
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .budget-form-card > label       { grid-column: 1; grid-row: 1; }
+  .budget-form-card > input       { grid-column: 1; grid-row: 2; }
+  .budget-form-card form label    { grid-column: 1; grid-row: 3; margin-top: 10px; }
+  .budget-form-card form input    { grid-column: 1; grid-row: 4; }
+  .budget-form-card form button   { grid-column: 1; grid-row: 5; }
+
+  .budget-progress-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+}

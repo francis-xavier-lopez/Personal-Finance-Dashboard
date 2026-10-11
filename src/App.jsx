@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 
 import Sidebar from "./components/sidebar";
@@ -5,61 +6,57 @@ import Sidebar from "./components/sidebar";
 import Dashboard from "./pages/dashboard";
 import Transactions from "./pages/transactions";
 import Charts from "./pages/charts";
+import Settings from "./pages/settings";
+import Reports from "./pages/reports";
+import Budgets from "./pages/budgets";
+
 import "./assets/css/app.css";
+
 import api from "./api/api";
 import Login from "./components/login";
 import Register from "./components/register";
-import Settings from "./pages/settings";
-import Reports from "./pages/reports";
 
 function App() {
-
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("accessToken")
   );
 
   const [showLogin, setShowLogin] = useState(true);
-
   const [activePage, setActivePage] = useState("dashboard");
-
   const [transactions, setTransactions] = useState([]);
-  
-  const [selectedMonth, setSelectedMonth] = useState(
-    new Date().toISOString().slice(0, 7)
-  );
 
+  const [selectedMonth, setSelectedMonth] = useState(() => {
+    const today = new Date();
+
+    return (
+      today.getFullYear() +
+      "-" +
+      String(today.getMonth() + 1).padStart(2, "0")
+    );
+  });
+
+  // Fetch transactions after login
   useEffect(() => {
-
-    if (!isLoggedIn) {
-      return;
-    }
+    if (!isLoggedIn) return;
 
     const fetchTransactions = async () => {
-
       try {
-
         const response = await api.get("transactions/");
-
         setTransactions(response.data);
-
       } catch (error) {
-
         console.error("Error fetching transactions:", error);
-
       }
-
     };
 
     fetchTransactions();
-
   }, [isLoggedIn]);
 
+  // Filter transactions by selected month
+  const filteredTransactions = transactions.filter((transaction) =>
+    transaction.date?.startsWith(selectedMonth)
+  );
 
-      
-  const filteredTransactions = transactions.filter((transaction) => {
-    return transaction.date?.startsWith(selectedMonth);
-  });
-
+  // Calculate monthly income
   const income = filteredTransactions
     .filter((transaction) => transaction.type === "income")
     .reduce(
@@ -67,6 +64,7 @@ function App() {
       0
     );
 
+  // Calculate monthly expenses
   const expense = filteredTransactions
     .filter((transaction) => transaction.type === "expense")
     .reduce(
@@ -76,19 +74,15 @@ function App() {
 
   const balance = income - expense;
 
-
+  // Delete a transaction
   const deleteTransaction = async (id) => {
-
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this transaction?"
     );
 
-    if (!confirmDelete) {
-      return;
-    }
+    if (!confirmDelete) return;
 
     try {
-
       await api.delete(`transactions/${id}/`);
 
       setTransactions((currentTransactions) =>
@@ -96,17 +90,15 @@ function App() {
           (transaction) => transaction.id !== id
         )
       );
-
     } catch (error) {
-
       console.error("Error deleting transaction:", error);
-
     }
   };
 
   const [editingTransaction, setEditingTransaction] = useState(null);
-    const editTransaction = (id) => {
 
+  // Select a transaction to edit
+  const editTransaction = (id) => {
     const transaction = transactions.find(
       (transaction) => transaction.id === id
     );
@@ -114,10 +106,11 @@ function App() {
     setEditingTransaction(transaction);
   };
 
+  // Save transaction edits
   const saveEdit = async () => {
+    if (!editingTransaction) return;
 
     try {
-
       const response = await api.put(
         `transactions/${editingTransaction.id}/`,
         {
@@ -138,32 +131,34 @@ function App() {
       );
 
       setEditingTransaction(null);
-
     } catch (error) {
-
       console.error("Error updating transaction:", error);
-
     }
   };
 
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
 
     setIsLoggedIn(false);
     setTransactions([]);
+    setActivePage("dashboard");
   };
 
   if (!isLoggedIn) {
     return showLogin ? (
-      <Login setIsLoggedIn={setIsLoggedIn} setShowLogin={setShowLogin} />
+      <Login
+        setIsLoggedIn={setIsLoggedIn}
+        setShowLogin={setShowLogin}
+      />
     ) : (
       <Register setShowLogin={setShowLogin} />
     );
   }
 
+  // Render the selected page
   const renderPage = () => {
-
     if (activePage === "dashboard") {
       return (
         <Dashboard
@@ -208,11 +203,22 @@ function App() {
       return <Reports transactions={transactions} />;
     }
 
+    if (activePage === "budgets") {
+      return <Budgets transactions={transactions} />;
+    }
+
+    return <Dashboard
+      income={income}
+      expense={expense}
+      balance={balance}
+      setTransactions={setTransactions}
+      selectedMonth={selectedMonth}
+      setSelectedMonth={setSelectedMonth}
+    />;
   };
 
   return (
     <div className="app-layout">
-
       <Sidebar
         activePage={activePage}
         setActivePage={setActivePage}
@@ -222,7 +228,6 @@ function App() {
       <main className="main-content">
         {renderPage()}
       </main>
-
     </div>
   );
 }
